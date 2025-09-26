@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import './App.css';
 import { Rect } from '@mindfusion/drawing';
 import * as Diagramming from '@mindfusion/diagramming';
@@ -61,19 +61,21 @@ function App() {
   const [diagramView, setDiagramView] = useState(null);
   const diagramViewElement = useRef(null);
 
-  diagram.style = shapeNodeStyle;
-  // set the size of diagram's scrollable area (unit is millimeter by default)
-  diagram.bounds = new Rect(0, 0, 1000, 1000);
+  useEffect(() => {
+    diagram.style = shapeNodeStyle;
+    // set the size of diagram's scrollable area (unit is millimeter by default)
+    diagram.bounds = new Rect(0, 0, 1000, 1000);
 
-  // you can create diagram items from code;
-  // alternative syntax is diagram.addItem(new ShapeNode());
-  var node1 = diagram.factory.createShapeNode(10, 10, 30, 30);
-  node1.text = "Hello";
+    // you can create diagram items from code;
+    // alternative syntax is diagram.addItem(new ShapeNode());
+    var node1 = diagram.factory.createShapeNode(10, 10, 30, 30);
+    node1.text = "Hello";
 
-  var node2 = diagram.factory.createShapeNode(60, 25, 30, 30);
-  node2.text = "World";
+    var node2 = diagram.factory.createShapeNode(60, 25, 30, 30);
+    node2.text = "World";
 
-  diagram.factory.createDiagramLink(node1, node2);
+    diagram.factory.createDiagramLink(node1, node2);
+  },[diagram])
 
   const onControlLoaded = () => {
     setDiagramView(diagramViewElement.current);
@@ -223,7 +225,7 @@ function App() {
               <DiagramView
                 diagram={diagram}
                 id="diagram"
-                linkBackId = "mindfusionLink"
+                linkBackId="mindfusionLink"
                 style={{ position: "absolute", width: 'auto', height: 'auto', left: 0, right: 0, top: 0, bottom: 0 }}
                 onControlLoaded={() => onControlLoaded()}
                 onLinkCreating={(sender, args) => onLinkCreating(sender, args)}
