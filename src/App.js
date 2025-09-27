@@ -75,6 +75,10 @@ function App() {
     node2.text = "World";
 
     diagram.factory.createDiagramLink(node1, node2);
+
+	// automatically route links drawn by user
+	diagram.routeLinks = true;
+
   },[diagram])
 
   const onControlLoaded = () => {
